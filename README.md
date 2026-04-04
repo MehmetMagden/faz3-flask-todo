@@ -1,16 +1,24 @@
-# Flask Todo List — Dockerized
+# Flask Todo List — CI/CD Pipeline
 
-A simple Todo List web application built with Flask and PostgreSQL, fully containerized with Docker Compose.
+A Todo List web application with full CI/CD pipeline using GitHub Actions.
 
 ## Tech Stack
 
 - **Backend:** Python / Flask
 - **Database:** PostgreSQL 15
 - **Container:** Docker + Docker Compose
-- **Web Server:** Flask dev server (port 5000)
+- **CI/CD:** GitHub Actions
+- **Testing:** pytest
+
+## CI/CD Pipeline
+
+Every push to master triggers:
+
+1. **Test job** — runs pytest (4 tests)
+2. **Docker job** — builds image and pushes to Docker Hub (only if tests pass)
 
 ## Project Structure
-faz3-flask-todo/ ├── app/ │ ├── app.py # Flask application │ ├── requirements.txt # Python dependencies │ ├── Dockerfile # Flask image │ └── templates/ │ └── index.html # UI template ├── docker-compose.yml # Service orchestration ├── Makefile # Shortcuts └── README.md
+faz3-flask-todo/ ├── .github/ │ └── workflows/ │ ├── hello.yml # Hello World workflow │ ├── ci.yml # Test automation │ └── docker.yml # Docker build & push ├── app/ │ ├── app.py │ ├── requirements.txt │ ├── Dockerfile │ └── templates/ │ └── index.html ├── tests/ │ ├── init.py │ └── test_app.py ├── docker-compose.yml ├── Makefile └── README.md
 
 ## Quick Start
 
@@ -19,15 +27,11 @@ make build    # Build Docker image
 make up       # Start all services
 make down     # Stop all services
 make logs     # View logs
-make status   # Check container status
-make clean    # Stop + remove volumes
 Usage
 Open browser: http://localhost:5000
 
-Add a task → type and click Add
-Complete a task → click ✅
-Delete a task → click 🗑️
-Services
-Service	Image	Port
-web	python:3.11-slim (custom)	5000
-db	postgres:15-alpine	5432
+Docker Hub
+Image: wowmaker/flask-todo:latest
+
+bash 
+docker pull wowmaker/flask-todo:latest
